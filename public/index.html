@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>نظام التسويق الذكي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">أتمتة الوكالة</p>
+        <h1>نظام التسويق الذكي</h1>
+        <p class="subtitle">من ملف العميل إلى استراتيجية، محتوى، توجيه إبداعي، وجدول Excel جاهز.</p>
+      </div>
+      <div class="header-actions">
+        <button id="excelBtn" class="icon-btn secondary" type="button" title="حفظ خطة Excel" disabled>Excel</button>
+        <button id="printBtn" class="icon-btn" type="button" title="تصدير PDF" disabled>PDF</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <form id="brandingForm" class="upload-panel compact-panel">
+          <label for="brandingFiles">ملفات البراند</label>
+          <input id="brandingFiles" name="brandingFiles" type="file" multiple accept="image/*,.pdf">
+          <label for="brandingLinks">روابط الموقع / السوشيال</label>
+          <textarea id="brandingLinks" name="brandingLinks" placeholder="ضع كل رابط في سطر مستقل"></textarea>
+          <label for="brandingModel">موديل تحليل البراند</label>
+          <input id="brandingModel" name="brandingModel" type="text" value="gpt-5.4-mini">
+          <button id="analyzeBrandingBtn" type="submit" disabled>تحليل ملفات البراند</button>
+        </form>
+
+        <form id="uploadForm" class="upload-panel compact-panel">
+          <label for="csvFile">ملف العميل CSV</label>
+          <input id="csvFile" name="csv" type="file" accept=".csv" required>
+          <button id="startBtn" type="submit">تشغيل من CSV</button>
+        </form>
+
+        <ol class="steps" id="steps">
+          <li data-step="businessInfo" data-page-target="brief">معلومات العميل</li>
+          <li data-step="brandingAnalysis" data-page-target="branding">تحليل البراند</li>
+          <li data-step="strategy" data-page-target="strategy">الاستراتيجية والمحتوى</li>
+          <li data-step="designPosts" data-page-target="design">تصميم البوستات</li>
+        </ol>
+
+        <div class="progress-panel">
+          <div class="progress-meta">
+            <span>نسبة الإنجاز</span>
+            <strong id="progressPercent">0%</strong>
+          </div>
+          <div class="progress-track" aria-label="نسبة تقدم الوورك فلو">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="status-box">
+          <span>الحالة</span>
+          <strong id="statusText">بانتظار ملف CSV</strong>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <section id="clientBriefSection" class="client-brief-section app-page" data-page="brief">
+          <form id="clientBriefForm" class="client-brief-form">
+            <div class="brief-hero">
+              <p class="eyebrow">Creative Brief</p>
+              <h2>نموذج معلومات العميل</h2>
+              <p>املأ بيانات النشاط والمشروع. بعد الحفظ، ارفع ملفات البراند من القائمة الجانبية ليبدأ التحليل.</p>
+            </div>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>01. معلومات العلامة التجارية</h3>
+                <span>Brand Info</span>
+              </div>
+              <div class="form-grid">
+                <label>اسم العلامة التجارية<input name="اسم العلامة التجارية" required></label>
+                <label>القطاع / المجال<input name="القطاع / المجال" required></label>
+                <label class="full">نبذة عن العلامة التجارية<textarea name="نبذة عن العلامة التجارية" required></textarea></label>
+                <label class="full">ما الذي يميزكم عن المنافسين؟<textarea name="ما الذي يميزكم عن المنافسين؟" required></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>02. أهداف المشروع</h3>
+                <span>Campaign Goal</span>
+              </div>
+              <div class="choices-grid">
+                <label><input type="checkbox" name="أهداف المشروع" value="زيادة المبيعات"> زيادة المبيعات</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="زيادة الوعي"> زيادة الوعي</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="إطلاق منتج"> إطلاق منتج</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="جمع عملاء محتملين"> جمع عملاء محتملين</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="زيادة التفاعل"> زيادة التفاعل</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="زيارات الموقع"> زيارات الموقع</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="تحسين الصورة الذهنية"> تحسين الصورة الذهنية</label>
+                <label><input type="checkbox" name="أهداف المشروع" value="حملة إعلانية"> حملة إعلانية</label>
+              </div>
+              <div class="form-grid one-row">
+                <label class="full">اشرح الهدف بشكل أوضح<textarea name="اشرح الهدف بشكل أوضح"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>03. الجمهور المستهدف</h3>
+                <span>Target Audience</span>
+              </div>
+              <div class="form-grid">
+                <label>نوع الجمهور المستهدف<select name="نوع الجمهور المستهدف"><option>أفراد</option><option>شركات</option></select></label>
+                <label>العمر<input name="العمر" placeholder="مثال: 25 - 40"></label>
+                <label>الجنس<select name="الجنس"><option>الجميع</option><option>رجال</option><option>نساء</option></select></label>
+                <label>المدينة / الدولة<input name="المدينة / الدولة"></label>
+                <label>الاهتمامات<input name="الاهتمامات"></label>
+                <label>لغة المحتوى<select name="لغة المحتوى"><option>العربية</option><option>الإنجليزية</option><option>كلتاهما</option></select></label>
+                <label>أسلوب اللغة العربية<select name="أسلوب اللغة العربية"><option>لغة عربية فصحى</option><option>لغة عربية بيضاء</option></select></label>
+                <label class="full">أسلوب حياتهم ومشكلاتهم<textarea name="أسلوب حياتهم ومشكلاتهم"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>04. المنتج أو الخدمة</h3>
+                <span>Offer Details</span>
+              </div>
+              <div class="form-grid">
+                <label class="full">ما المنتج أو الخدمة؟<textarea name="ما المنتج أو الخدمة؟" required></textarea></label>
+                <label>السعر<input name="السعر"></label>
+                <label>هل يوجد عرض حالي؟<input name="هل يوجد عرض حالي؟"></label>
+                <label class="full">أهم المميزات ونقاط القوة<textarea name="أهم المميزات ونقاط القوة" required></textarea></label>
+                <label class="full">ما أكثر اعتراض يأتيكم من العملاء؟<textarea name="ما أكثر اعتراض يأتيكم من العملاء؟"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>05. صوت العلامة التجارية</h3>
+                <span>Tone of Voice</span>
+              </div>
+              <div class="choices-grid">
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="فاخر"> فاخر</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="شبابي"> شبابي</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="عفوي"> عفوي</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="رسمي"> رسمي</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="مرح"> مرح</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="احترافي"> احترافي</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="محلي سعودي"> محلي سعودي</label>
+                <label><input type="checkbox" name="صوت العلامة التجارية" value="Minimal"> بسيط</label>
+              </div>
+              <div class="form-grid one-row">
+                <label class="full">هل توجد كلمات أو أساليب يُمنع استخدامها؟<textarea name="هل توجد كلمات أو أساليب يُمنع استخدامها؟"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>06. المحتوى المطلوب</h3>
+                <span>Content Scope</span>
+              </div>
+              <div class="choices-grid">
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="UGC"> UGC</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="Reels"> Reels</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="TikTok"> TikTok</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="صور"> صور</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="إعلانات ممولة"> إعلانات ممولة</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="فلوقات"> فلوقات</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="موقع إلكتروني"> موقع إلكتروني</label>
+                <label><input type="checkbox" name="نوع المحتوى المطلوب" value="مقالات"> مقالات</label>
+              </div>
+              <div class="form-grid one-row">
+                <label>عدد القطع المطلوبة<input name="عدد القطع المطلوبة" placeholder="مثال: 10 فيديوهات + 15 صورة"></label>
+                <label>المنصات<input name="المنصات" placeholder="Instagram, TikTok, Snapchat, X"></label>
+                <label class="full">مراجع وأمثلة تعجبكم<textarea name="مراجع وأمثلة تعجبكم"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>07. الإنتاج والتصوير</h3>
+                <span>Production</span>
+              </div>
+              <div class="form-grid">
+                <label>مكان التصوير<input name="مكان التصوير"></label>
+                <label>هل المنتج جاهز؟<select name="هل المنتج جاهز؟"><option>نعم</option><option>لا</option><option>قيد التجهيز</option></select></label>
+                <label>هل يوجد عارضون أو صناع محتوى؟<select name="هل يوجد عارضون أو صناع محتوى؟"><option>نحتاج من الوكالة</option><option>متوفر من العميل</option><option>غير مطلوب</option></select></label>
+                <label>موعد التسليم المطلوب<input type="date" name="موعد التسليم المطلوب"></label>
+                <label class="full">ملاحظات إنتاجية<textarea name="ملاحظات إنتاجية"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>08. الإعلانات والقياس</h3>
+                <span>Ads & KPIs</span>
+              </div>
+              <div class="form-grid">
+                <label>الميزانية الإعلانية<input name="الميزانية الإعلانية"></label>
+                <label>مدة الحملة<input name="مدة الحملة"></label>
+                <label class="full">هل توجد حملات سابقة؟ وما نتائجها؟<textarea name="هل توجد حملات سابقة؟ وما نتائجها؟"></textarea></label>
+                <label class="full">كيف نقيس النجاح؟<textarea name="كيف نقيس النجاح؟"></textarea></label>
+              </div>
+            </section>
+
+            <section class="brief-block">
+              <div class="brief-head">
+                <h3>09. الملفات والموافقات</h3>
+                <span>Assets & Approval</span>
+              </div>
+              <div class="form-grid">
+                <label class="full">رابط ملفات العلامة التجارية<input type="url" name="رابط ملفات العلامة التجارية"></label>
+                <label>الشخص المسؤول عن الموافقة<input name="الشخص المسؤول عن الموافقة" required></label>
+                <label>وسيلة التواصل<input name="وسيلة التواصل" required></label>
+                <label class="full">ملاحظات أخيرة<textarea name="ملاحظات أخيرة"></textarea></label>
+              </div>
+            </section>
+
+            <div class="brief-submit">
+              <div>
+                <h3>حفظ معلومات العميل</h3>
+                <p>بعد الحفظ، انتقل إلى صفحة تحليل البراند.</p>
+              </div>
+              <button type="submit">حفظ ومتابعة</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="outputs" class="outputs">
+          <article class="output-section" data-output="businessInfo">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">الخطوة 1</span>
+                <h2>معلومات العميل</h2>
+              </div>
+            </div>
+            <div id="businessInfoOutput" class="summary-grid"></div>
+          </article>
+
+          <article class="output-section app-page" data-page="branding" data-output="brandingAnalysis">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">الخطوة 2</span>
+                <h2>مراجعة ملفات البراند</h2>
+              </div>
+              <div class="actions">
+                <button id="approveBrandingBtn" type="button" disabled>اعتماد البراند وبدء الاستراتيجية</button>
+              </div>
+            </div>
+            <div id="brandingAnalysisOutput" class="formatted-output"></div>
+          </article>
+
+          <div class="app-page" data-page="strategy">
+          <article class="output-section" data-output="intake">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">تشخيص داخلي</span>
+                <h2>استقبال وتشخيص العميل</h2>
+              </div>
+            </div>
+            <div id="intakeOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="strategy">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">الخطوة 3</span>
+                <h2>الاستراتيجية الرقمية</h2>
+              </div>
+              <div class="actions">
+                <button id="approveStrategyBtn" type="button">اعتماد الاستراتيجية</button>
+                <button id="reviseStrategyBtn" class="secondary" type="button">طلب تعديل</button>
+              </div>
+            </div>
+            <textarea id="strategyFeedback" placeholder="ملاحظات اختيارية لتعديل الاستراتيجية"></textarea>
+            <div id="strategyOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="planner">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">المرحلة 3</span>
+                <h2>تخطيط المحتوى</h2>
+              </div>
+            </div>
+            <div id="plannerOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="copywriting">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">المرحلة 4</span>
+                <h2>الكتابة التسويقية</h2>
+              </div>
+              <div class="actions">
+                <button id="approveCopyBtn" type="button" disabled>اعتماد الكتابة</button>
+                <button id="reviseCopyBtn" class="secondary" type="button" disabled>طلب تعديل</button>
+              </div>
+            </div>
+            <textarea id="copyFeedback" placeholder="ملاحظات اختيارية لتعديل الكتابة التسويقية"></textarea>
+            <div id="copywritingOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="qa">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">المرحلة 5</span>
+                <h2>مراجعة الجودة وتناسق البراند</h2>
+              </div>
+            </div>
+            <div id="qaOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="creative">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">المرحلة 6</span>
+                <h2>التوجيه الإبداعي</h2>
+              </div>
+            </div>
+            <div id="creativeOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section final" data-output="finalBrief">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">المرحلة 7</span>
+                <h2>البريف النهائي للمصمم</h2>
+              </div>
+            </div>
+            <div id="finalBriefOutput" class="formatted-output"></div>
+          </article>
+
+          <article class="output-section" data-output="socialPlan">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">الخطوة 4</span>
+                <h2>خطة السوشيال ميديا</h2>
+              </div>
+              <div class="actions">
+                <button id="generateSocialPlanBtn" type="button" disabled>توليد / تحديث الخطة</button>
+              </div>
+            </div>
+            <div id="socialPlanTableWrap" class="table-wrap"></div>
+          </article>
+          </div>
+
+          <article class="output-section app-page" data-page="design" data-output="designPosts">
+            <div class="section-head">
+              <div>
+                <span class="stage-pill">الخطوة 4</span>
+                <h2>تصميم البوستات</h2>
+              </div>
+              <div class="actions">
+                <button id="prepareDesignBtn" type="button" disabled>توليد التصاميم</button>
+              </div>
+            </div>
+            <div id="designPostsOutput" class="design-board"></div>
+          </article>
+        </section>
+
+        <nav class="page-nav" aria-label="Workflow navigation">
+          <button id="prevPageBtn" type="button" class="secondary">السابق</button>
+          <button id="nextPageBtn" type="button">التالي</button>
+        </nav>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
