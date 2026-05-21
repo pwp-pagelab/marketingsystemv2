@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: marketing-system
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.2
+      - key: OPENAI_IMAGE_MAIN_MODEL
+        value: gpt-5.2
+      - key: DESIGN_IMAGE_LIMIT
+        value: "3"
